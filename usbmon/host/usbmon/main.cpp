@@ -150,6 +150,85 @@ void readBenchmark(libusb_device_handle *handle){
 	
 }
 
+typedef enum {
+	CMD_NOP = 0x00, CMD_READ = 0x01, CMD_WRITE = 0x02, CMD_UNKNOWN = 0xFF
+};
+
+uint8_t membuf[256];
+	
+void write_mem(libusb_device_handle *handle,uint32_t addr, const uint8_t * const dat, uint32_t len){
+	uint32_t i;
+	for(i=0;i<len;i++){
+		membuf[addr+i]=dat[i];
+	}
+	uint8_t cmd[8];
+	cmd[0]=CMD_WRITE;
+	cmd[1]=len>>16;
+	cmd[2]=len>>8;
+	cmd[3]=len;
+	cmd[4]=addr>>24;
+	cmd[5]=addr>>16;
+	cmd[6]=addr>>8;
+	cmd[7]=addr;
+	int actual_length;
+	//send cmd
+	err = libusb_bulk_transfer(handle, BULK_EP_OUT, cmd, sizeof(cmd), &actual_length, 0);
+	if(err || (actual_length!=sizeof(cmd))) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
+	//get ack
+	uint8_t ack[2];
+	err = libusb_bulk_transfer(handle, BULK_EP_IN, ack, 2, &actual_length, 0);
+	if(err) throw new std::string("ERROR: libusb_bulk_transfer() IN failed");
+	if(ack[0]!=cmd[0]){
+		printf("%d %02X %02X\n",actual_length,ack[0],ack[1]);
+		throw new std::string("ERROR: unexpected ack");
+	}
+	//send data
+	err = libusb_bulk_transfer(handle, BULK_EP_OUT, (uint8_t*)dat, len, &actual_length, 0);
+	if(err || (actual_length!=len)) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
+}
+void read_mem(libusb_device_handle *handle,uint32_t addr, uint8_t *dat, uint8_t len){
+	uint8_t cmd[8];
+	cmd[0]=CMD_READ;
+	cmd[1]=len>>16;
+	cmd[2]=len>>8;
+	cmd[3]=len;
+	cmd[4]=addr>>24;
+	cmd[5]=addr>>16;
+	cmd[6]=addr>>8;
+	cmd[7]=addr;
+	int actual_length;
+	//send cmd
+	err = libusb_bulk_transfer(handle, BULK_EP_OUT, cmd, sizeof(cmd), &actual_length, 0);
+	if(err || (actual_length!=sizeof(cmd))) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
+	//get ack
+	uint8_t ack[2];
+	err = libusb_bulk_transfer(handle, BULK_EP_IN, ack, 2, &actual_length, 0);
+	if(err) throw new std::string("ERROR: libusb_bulk_transfer() IN failed");
+	if(ack[0]!=cmd[0]){
+		printf("%d %02X %02X\n",actual_length,ack[0],ack[1]);
+		throw new std::string("ERROR: unexpected ack");
+	}
+	//read data
+	err = libusb_bulk_transfer(handle, BULK_EP_IN, (uint8_t*)dat, len, &actual_length, 0);
+	if(err || (actual_length!=len)) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
+
+	uint8_t i;
+	
+	for(i=0;i<len;i++){
+		if(dat[i]!=membuf[addr+i]){
+			printf("ERROR: unexpected read value at offset %d, expected %02X, got %02X\n",i,membuf[addr+i],dat[i]);
+		} else {
+			printf("%02X ",dat[i]);
+		}
+	}
+	printf("\n");
+}
+void usbmonTest(libusb_device_handle *handle){
+	uint8_t dat[256];
+	for(int i=0;i<8;i++) dat[i]=i;
+	write_mem(handle,0,dat,8);
+	read_mem(handle,0,dat,8);
+}
 
 
 int usb_find_all(void){
@@ -188,7 +267,8 @@ int usb_find_all(void){
 			
 			printf("libusb_open() OK\n");
 			
-			readBenchmark(handle);
+			//readBenchmark(handle);
+			usbmonTest(handle);
 			
 			printf("libusb_close()\n");
 			libusb_close(handle);
