@@ -131,7 +131,7 @@ void usbmon(void) {
 			break;
 		case CMD_WRITE: {
 			uint32_t addr = combuf32[1];
-			uint8_t readLen=8;
+			uint8_t readLen=64;
 			usb_send(combuf,1);//send ack
 			len = combuf32[0] & 0x00FFFFFF;
 			while(len){

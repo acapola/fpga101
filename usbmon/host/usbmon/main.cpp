@@ -186,7 +186,7 @@ void write_mem(libusb_device_handle *handle,uint32_t addr, const uint8_t * const
 	err = libusb_bulk_transfer(handle, BULK_EP_OUT, (uint8_t*)dat, len, &actual_length, 0);
 	if(err || (actual_length!=len)) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
 }
-void read_mem(libusb_device_handle *handle,uint32_t addr, uint8_t *dat, uint8_t len){
+void read_mem(libusb_device_handle *handle,uint32_t addr, uint8_t *dat, uint32_t len){
 	uint8_t cmd[8];
 	cmd[0]=CMD_READ;
 	cmd[1]=len>>16;
@@ -212,7 +212,7 @@ void read_mem(libusb_device_handle *handle,uint32_t addr, uint8_t *dat, uint8_t 
 	err = libusb_bulk_transfer(handle, BULK_EP_IN, (uint8_t*)dat, len, &actual_length, 0);
 	if(err || (actual_length!=len)) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
 
-	uint8_t i;
+	uint32_t i;
 	
 	for(i=0;i<len;i++){
 		if(dat[i]!=membuf[addr+i]){
@@ -225,9 +225,19 @@ void read_mem(libusb_device_handle *handle,uint32_t addr, uint8_t *dat, uint8_t 
 }
 void usbmonTest(libusb_device_handle *handle){
 	uint8_t dat[256];
-	for(int i=0;i<8;i++) dat[i]=i;
+	for(int i=0;i<256;i++) dat[i]=i;
 	write_mem(handle,0,dat,8);
 	read_mem(handle,0,dat,8);
+	write_mem(handle,4,dat,8);
+	read_mem(handle,0,dat,12);
+	write_mem(handle,0,dat,64);
+	write_mem(handle,64,dat,64);
+	write_mem(handle,128,dat,64);
+	write_mem(handle,192,dat,64);
+	//write_mem(handle,0,dat,32);
+	read_mem(handle,0,dat,32);
+	//write_mem(handle,0,dat,64);
+	read_mem(handle,0,dat,256);
 }
 
 
