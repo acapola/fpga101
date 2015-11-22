@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Workspace Name="usbmon" Database="">
+<CodeLite_Workspace Name="usbmon" Database="" SWTLW="No">
   <Project Name="usbmon" Path="usbmon/usbmon.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
