@@ -38,7 +38,7 @@ void usbmon(void);
 
 unsigned int blinkDelay = 65000;
 unsigned int blinkCnt = 0;
-void toggleLED(void){
+void toggleLED(void) {
 	P0 = P0 ^ 0x80; //toggle P0.7
 }
 void blink(void) {

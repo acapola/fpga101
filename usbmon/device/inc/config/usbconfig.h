@@ -16,7 +16,7 @@
 // Specify bus- or self-powered
 // -----------------------------------------------------------------------------
 // $[Device Power]
-#define SLAB_USB_BUS_POWERED                   0
+#define SLAB_USB_BUS_POWERED                   1
 // [Device Power]$
 
 // -----------------------------------------------------------------------------

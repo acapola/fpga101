@@ -341,7 +341,13 @@ static void handleUsbResetInt(void)
 
   // If VBUS is preset, put the device in the Default state.
   // Otherwise, put it in the Attached state.
-#if (!(SLAB_USB_PWRSAVE_MODE & USB_PWRSAVE_MODE_ONVBUSOFF))
+//#if (!(SLAB_USB_PWRSAVE_MODE & USB_PWRSAVE_MODE_ONVBUSOFF))
+
+  // If VBUS is preset, put the device in the Default state.
+    // Otherwise, put it in the Attached state.
+    // If the device is bus-powered, always put it in the Default state
+  #if (!(SLAB_USB_PWRSAVE_MODE & USB_PWRSAVE_MODE_ONVBUSOFF) && !SLAB_USB_BUS_POWERED)
+
   if (USB_IsVbusOn())
   {
     USBD_SetUsbState(USBD_STATE_DEFAULT);

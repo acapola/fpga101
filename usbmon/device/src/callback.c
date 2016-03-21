@@ -53,7 +53,7 @@ uint16_t USBD_XferCompleteCb(uint8_t epAddr, USB_Status_TypeDef status,
 	return 0;
 }
 bool USBD_IsSelfPoweredCb(void){
-	return true;
+	return false;
 }
 USB_Status_TypeDef USBD_SetupCmdCb(SI_VARIABLE_SEGMENT_POINTER(setup,
                                                                USB_Setup_TypeDef,
