@@ -33,7 +33,7 @@ extern volatile uint8_t tx_size;
 
 void USBD_ResetCb(void) {
 	usbState = USBD_STATE_NONE;
-	P1+=0x10;
+	//P1+=0x10;
 	//tx_done=true;
 }
 
@@ -43,7 +43,7 @@ void USBD_SofCb(uint16_t sofNr) {
 void USBD_DeviceStateChangeCb(USBD_State_TypeDef oldState,
 		USBD_State_TypeDef newState) {
 	usbState = newState;
-	P1+=0x10;
+	//P1+=0x10;
 	//tx_done=true;
 }
 uint16_t USBD_XferCompleteCb(uint8_t epAddr, USB_Status_TypeDef status,
@@ -59,17 +59,17 @@ USB_Status_TypeDef USBD_SetupCmdCb(SI_VARIABLE_SEGMENT_POINTER(setup,
                                                                USB_Setup_TypeDef,
                                                                MEM_MODEL_SEG)){
 	//tx_done=true;
-	P1+=0x10;
+	//P1+=0x10;
 	return USB_STATUS_REQ_UNHANDLED;
 }
 void USBD_EnterHandler(void){
 	//tx_done=true;
-	P1+=0x10;
+	//P1+=0x10;
 
 }
 void USBD_ExitHandler(void){
 	//tx_done=true;
-	P1+=0x10;
+	//P1+=0x10;
 
 }
 

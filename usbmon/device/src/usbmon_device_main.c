@@ -35,20 +35,40 @@ volatile USBD_State_TypeDef usbState;
 // main() Routine
 // ----------------------------------------------------------------------------
 void usbmon(void);
+
+unsigned int blinkDelay = 65000;
+unsigned int blinkCnt = 0;
+void toggleLED(void){
+	P0 = P0 ^ 0x80; //toggle P0.7
+}
+void blink(void) {
+	unsigned int i;
+	toggleLED();
+	for (i = 0; i < blinkDelay; i++)
+		_nop_();
+}
+void waitUsbConfigured(void) {
+	while (usbState != USBD_STATE_CONFIGURED) {
+		if (blinkCnt++ == blinkDelay) {
+			blinkCnt = 0;
+			toggleLED();
+
+		}
+		_nop_();		//slow down a bit
+		_nop_();		//slow down a bit
+	}
+}
 int main(void) {
 	volatile uint32_t cnt = 0;
 	uint8_t* buf = (uint8_t*) dataStorage;
 	usbState = USBD_STATE_NONE;
 	// Call hardware initialization routine
 	enter_DefaultMode_from_RESET();
-	//while(USB_STATUS_OK!=USBD_Read(2, buf, 8, false));
 	dataStorage[0] = 0;
 	dataStorage[1] = 1;
 	tx_done = true;
-	while (usbState != USBD_STATE_CONFIGURED)
-		;
+	waitUsbConfigured();
 
-	P1 += 0x10;
 	while (1) {
 		usbmon();
 	}
@@ -56,14 +76,16 @@ int main(void) {
 		unsigned int i;
 // $[Generated Run-time code]
 // [Generated Run-time code]$
-		//while(USB_STATUS_OK!=USBD_Read(2, buf, 8, false));
 		for (i = 0; i < 2; i++)
 			dataStorage[i] = cnt++;
-		//P1 += 0x10;
-		while (usbState != USBD_STATE_CONFIGURED)
-			;
-		while (!tx_done)
-			;
+
+		waitUsbConfigured();
+		while (!tx_done) {
+			if (blinkCnt++ == blinkDelay / 2) {
+				blinkCnt = 0;
+				toggleLED();
+			}
+		}
 
 		tx_done = false;
 		USB_DisableInts();

@@ -30,7 +30,7 @@
 // Enable or disable the clock recovery
 // -----------------------------------------------------------------------------
 // $[Clock Recovery]
-#define SLAB_USB_CLOCK_RECOVERY_ENABLED        1
+#define SLAB_USB_CLOCK_RECOVERY_ENABLED        0
 // [Clock Recovery]$
 
 // -----------------------------------------------------------------------------

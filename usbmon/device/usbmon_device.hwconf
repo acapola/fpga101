@@ -6,11 +6,19 @@
     <property object="CIP51_0" propertyId="cip51.prefetchenginecontrol.flashreadtiming" value="SYSCLK is below 50 MHz"/>
     <property object="CLOCK_0" propertyId="ABPeripheral.included" value="true"/>
     <property object="CLOCK_0" propertyId="clock.clockselect.clocksourcedivider" value="SYSCLK / 1"/>
-    <property object="CLOCK_0" propertyId="clock.clockselect.selectclocksource" value="Internal High Frequency Oscillator 1"/>
+    <property object="CLOCK_0" propertyId="clock.clockselect.extclk" value="48000000"/>
+    <property object="CLOCK_0" propertyId="clock.clockselect.selectclocksource" value="External Oscillator"/>
     <property object="DefaultMode" propertyId="mode.diagramLocation" value="100, 100"/>
     <property object="INTERRUPT_0" propertyId="ABPeripheral.included" value="true"/>
     <property object="INTERRUPT_0" propertyId="interrupt.extendedinterruptenable2.enableusbusb0interrupt" value="Enabled"/>
     <property object="INTERRUPT_0" propertyId="interrupt.interruptenable.enableallinterrupts" value="Enabled"/>
+    <property object="P0.3" propertyId="ports.settings.skip" value="Skipped"/>
+    <property object="P0.7" propertyId="ports.settings.iomode" value="Digital Push-Pull Output"/>
+    <property object="P0.7" propertyId="ports.settings.latch" value="Low"/>
+    <property object="P0.7" propertyId="ports.settings.outputmode" value="Push-pull"/>
+    <property object="P1.2" propertyId="ports.settings.iomode" value="Digital Push-Pull Output"/>
+    <property object="P1.2" propertyId="ports.settings.latch" value="Low"/>
+    <property object="P1.2" propertyId="ports.settings.outputmode" value="Push-pull"/>
     <property object="PBCFG_0" propertyId="pbcfg.settings.enablecrossbar" value="Enabled"/>
     <property object="SPI_0" propertyId="spi.clockrate.spiclockfrequencyactual" value="1.000 MHz"/>
     <property object="SPI_0" propertyId="spi.clockrate.spiclockfrequencytarget" value="1000000"/>
@@ -41,7 +49,6 @@
     <property object="USBLIB_0" propertyId="library.callbackfunctions.setupcommandcallback" value="Enabled"/>
     <property object="USBLIB_0" propertyId="library.callbackfunctions.startofframecallback" value="Enabled"/>
     <property object="USBLIB_0" propertyId="library.callbackfunctions.statechangecallback" value="Enabled"/>
-    <property object="USBLIB_0" propertyId="library.libraryconfiguration.clockrecovery" value="Enabled"/>
     <property object="WDT_0" propertyId="ABPeripheral.included" value="true"/>
     <property object="WDT_0" propertyId="wdt.watchdogcontrol.wdtenable" value="Disable"/>
   </mode>
