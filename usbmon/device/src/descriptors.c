@@ -94,7 +94,7 @@ SI_SEGMENT_VARIABLE(configDesc[],
 #define LANG_STRING   htole16( SLAB_USB_LANGUAGE )
 #define MFR_STRING                             "rawbitshood"
 #define PROD_STRING                            "fpga101"
-#define SER_STRING                             "0123456789ABCDEF"
+#define SER_STRING                             "0123456789ABCDE0"
 #define CFG_STRING                             "Config #1"
 #define INT0_STRING                            "Custom Interface"
 

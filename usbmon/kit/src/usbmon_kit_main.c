@@ -8,6 +8,8 @@
 #include "efm8_usb.h"
 // [Generated Includes]$
 #include <stdint.h>
+void usb_send(const uint8_t*const combuf, uint8_t len);
+#include "sfr_read_cmd.h"
 
 void Delay(void) {
 	int16_t x;
@@ -144,7 +146,12 @@ void read_mem(uint32_t addr, uint8_t *dat, uint8_t len){
 	}
 }
 typedef enum {
-	CMD_NOP = 0x00, CMD_READ = 0x01, CMD_WRITE = 0x02, CMD_TEST_UNKNOWN = 0xFF
+	CMD_NOP          = 0x00,
+	CMD_READ         = 0x01,
+	CMD_WRITE        = 0x02,
+	CMD_READ_SFR     = 0x03,
+	CMD_WRITE_SFR    = 0x04,
+	CMD_TEST_UNKNOWN = 0xFF
 };
 void usb_receive(uint8_t*combuf, uint8_t len){
 	unsigned int status;
@@ -213,6 +220,8 @@ void usbmon(void) {
 			}
 			break;
 		}
+		case CMD_READ_SFR: sfr_read_cmd(combuf32);break;
+		case CMD_WRITE_SFR: sfr_write_cmd(combuf32);break;
 		case CMD_TEST_UNKNOWN:		//fall through
 		default: //unknown command
 			combuf[1] = combuf[0];

@@ -37,7 +37,7 @@
 								</option>
 								<option id="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis.1516431183" name="Emphasis" superClass="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis" value="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis.speed" valueType="enumerated"/>
 								<option id="com.silabs.ide.si8051.keil.compiler.category.optimization.level.209346718" name="Level" superClass="com.silabs.ide.si8051.keil.compiler.category.optimization.level"/>
-								<option id="com.silabs.ide.si8051.keil.compiler.category.includes.paths.1259611343" superClass="com.silabs.ide.si8051.keil.compiler.category.includes.paths" valueType="includePath">
+								<option id="com.silabs.ide.si8051.keil.compiler.category.includes.paths.1259611343" name="Include paths (INCDIR(...))" superClass="com.silabs.ide.si8051.keil.compiler.category.includes.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/inc/config}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${StudioSdkPath}/Lib/efm8_usb/inc&quot;"/>
@@ -46,10 +46,14 @@
 									<listOptionValue builtIn="false" value="&quot;${StudioSdkPath}/Device/shared/si8051Base&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${StudioSdkPath}/Device/EFM8UB1&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${StudioSdkPath}/Device/EFM8UB1/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/usbmon_kit/generated}&quot;"/>
 								</option>
 								<inputType id="com.silabs.ide.si8051.keil.compiler.inputType.222917597" superClass="com.silabs.ide.si8051.keil.compiler.inputType"/>
 							</tool>
 							<tool command="AX51" id="com.silabs.ide.si8051.keil.toolchain.assembler.1695267251" name="Keil 8051 Assembler" superClass="com.silabs.ide.si8051.keil.toolchain.assembler">
+								<option id="com.silabs.ide.si8051.keil.assembler.category.includes.paths.896850820" name="Include paths (INCDIR(...))" superClass="com.silabs.ide.si8051.keil.assembler.category.includes.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/usbmon_kit/generated}&quot;"/>
+								</option>
 								<inputType id="com.silabs.ide.si8051.keil.assembler.inputType.1927413958" superClass="com.silabs.ide.si8051.keil.assembler.inputType"/>
 							</tool>
 							<tool command="LX51" id="com.silabs.ide.si8051.keil.toolchain.linker.1233649486" name="Keil 8051 Linker" superClass="com.silabs.ide.si8051.keil.toolchain.linker">
@@ -58,6 +62,24 @@
 							<tool id="com.silabs.ide.si8051.keil.toolchain.librarian.1733121581" name="Keil 8051 Library Manager" superClass="com.silabs.ide.si8051.keil.toolchain.librarian"/>
 						</toolChain>
 					</folderInfo>
+					<folderInfo id="com.silabs.ide.si8051.keil.debug#com.silabs.ide.si8051.keil:9.53.0.362140641" name="/" resourcePath="generated">
+						<toolChain id="com.silabs.ide.si8051.keil.toolchain.exe.default.1331896534" name="Keil 8051" superClass="com.silabs.ide.si8051.keil.toolchain.exe.default" unusedChildren="">
+							<option id="com.silabs.ide.si8051.keil.toolchain.category.general.debug.1111798764.1823742898" name="Generate debug information" superClass="com.silabs.ide.si8051.keil.toolchain.category.general.debug.1111798764"/>
+							<option id="com.silabs.ide.si8051.keil.toolchain.category.general.extended_linker.1263854772.1260878973" name="Use Extended Linker (LX51) instead of BL51" superClass="com.silabs.ide.si8051.keil.toolchain.category.general.extended_linker.1263854772"/>
+							<option id="com.silabs.ide.si8051.keil.toolchain.category.general.extended_assembler.1394403202.435150962" name="Use Extended Assembler (AX51) instead of A51" superClass="com.silabs.ide.si8051.keil.toolchain.category.general.extended_assembler.1394403202"/>
+							<tool id="com.silabs.ide.si8051.keil.toolchain.compiler.650429449" name="Keil 8051 Compiler" superClass="com.silabs.ide.si8051.keil.toolchain.compiler.593330869">
+								<inputType id="com.silabs.ide.si8051.keil.compiler.inputType.1029117927" superClass="com.silabs.ide.si8051.keil.compiler.inputType"/>
+							</tool>
+							<tool id="com.silabs.ide.si8051.keil.toolchain.assembler.2134636616" name="Keil 8051 Assembler" superClass="com.silabs.ide.si8051.keil.toolchain.assembler.1695267251">
+								<inputType id="com.silabs.ide.si8051.keil.assembler.inputType.1771591169" superClass="com.silabs.ide.si8051.keil.assembler.inputType"/>
+							</tool>
+							<tool id="com.silabs.ide.si8051.keil.toolchain.linker.781064799" name="Keil 8051 Linker" superClass="com.silabs.ide.si8051.keil.toolchain.linker.1233649486"/>
+							<tool id="com.silabs.ide.si8051.keil.toolchain.librarian.507256347" name="Keil 8051 Library Manager" superClass="com.silabs.ide.si8051.keil.toolchain.librarian.1733121581"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="generated" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -97,9 +119,15 @@
 								</option>
 								<option id="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis.1425474568" name="Emphasis" superClass="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis" value="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis.speed" valueType="enumerated"/>
 								<option id="com.silabs.ide.si8051.keil.compiler.category.optimization.coloring.2108375531" name="Global register coloring" superClass="com.silabs.ide.si8051.keil.compiler.category.optimization.coloring" value="true" valueType="boolean"/>
+								<option id="com.silabs.ide.si8051.keil.compiler.category.includes.paths.1136535179" superClass="com.silabs.ide.si8051.keil.compiler.category.includes.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/usbmon_kit/generated}&quot;"/>
+								</option>
 								<inputType id="com.silabs.ide.si8051.keil.compiler.inputType.845628742" superClass="com.silabs.ide.si8051.keil.compiler.inputType"/>
 							</tool>
 							<tool command="AX51" id="com.silabs.ide.si8051.keil.toolchain.assembler.1527934143" name="Keil 8051 Assembler" superClass="com.silabs.ide.si8051.keil.toolchain.assembler">
+								<option id="com.silabs.ide.si8051.keil.assembler.category.includes.paths.1568999588" superClass="com.silabs.ide.si8051.keil.assembler.category.includes.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/usbmon_kit/generated}&quot;"/>
+								</option>
 								<inputType id="com.silabs.ide.si8051.keil.assembler.inputType.1634881457" superClass="com.silabs.ide.si8051.keil.assembler.inputType"/>
 							</tool>
 							<tool command="LX51" id="com.silabs.ide.si8051.keil.toolchain.linker.929515245" name="Keil 8051 Linker" superClass="com.silabs.ide.si8051.keil.toolchain.linker">
@@ -127,5 +155,12 @@
 		<project id="usbmon_kit.com.silabs.ide.project.core.cdt.cdtMbsProjectType.613191808" name="SLS CDT Project" projectType="com.silabs.ide.project.core.cdt.cdtMbsProjectType"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Keil 8051 v9.53 - Release">
+			<resource resourceType="PROJECT" workspacePath="/usbmon_kit"/>
+		</configuration>
+		<configuration configurationName="Keil 8051 v9.53 - Debug">
+			<resource resourceType="PROJECT" workspacePath="/usbmon_kit"/>
+		</configuration>
+	</storageModule>
 </cproject>

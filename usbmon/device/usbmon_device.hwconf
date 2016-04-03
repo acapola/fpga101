@@ -42,6 +42,7 @@
     <property object="USBLIB_0" propertyId="configuration.configurationparameters.devicepower" value="Bus-Powered"/>
     <property object="USBLIB_0" propertyId="device.deviceproperties.bmaxpacketsize" value="64"/>
     <property object="USBLIB_0" propertyId="device.deviceproperties.productstring" value="fpga101"/>
+    <property object="USBLIB_0" propertyId="device.deviceproperties.serialnumberstring" value="0123456789ABCDE0"/>
     <property object="USBLIB_0" propertyId="device.deviceproperties.vendorstring" value="rawbitshood"/>
     <property object="USBLIB_0" propertyId="endpoints.endpoint1in.bulkmaxpacketsizebytes" value="64"/>
     <property object="USBLIB_0" propertyId="endpoints.endpoint1in.endpoint1in" value="Enabled"/>

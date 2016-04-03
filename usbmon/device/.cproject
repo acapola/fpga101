@@ -144,7 +144,7 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 	</storageModule>
-	<storageModule moduleId="com.silabs.ide.project.core" project.generation="1" projectCommon.buildArtifactType="EXE" projectCommon.kitId="com.silabs.kit.si8051.efm8ub1_slstk2000a" projectCommon.partId="com.silabs.mcu.si8051.efm8ub1_g.efm8ub10f8g" projectCommon.sdkId="com.silabs.sdk.si8051.sls:3.0.0" projectCommon.toolchainId="com.silabs.ide.si8051.keil:9.53.0"/>
+	<storageModule moduleId="com.silabs.ide.project.core" project.generation="13" projectCommon.buildArtifactType="EXE" projectCommon.kitId="com.silabs.kit.si8051.efm8ub1_slstk2000a" projectCommon.partId="com.silabs.mcu.si8051.efm8ub1_g.efm8ub10f8g" projectCommon.sdkId="com.silabs.sdk.si8051.sls:3.0.0" projectCommon.toolchainId="com.silabs.ide.si8051.keil:9.53.0"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		<scannerConfigBuildInfo instanceId="com.silabs.ide.si8051.keil.release#com.silabs.ide.si8051.keil:9.53.0;com.silabs.ide.si8051.keil.release#com.silabs.ide.si8051.keil:9.53.0.">

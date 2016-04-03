@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <iostream>
 #include <cstdint>
+#include <assert.h>
 
 #include <omp.h>
 #include <libusb-1.0/libusb.h>
@@ -83,12 +84,12 @@ void readWriteLoop(libusb_device_handle *handle){
 	for(int j=0;j<10;j++){
 		try{
 			unsigned char data[8];// = {0x12,0x34,0x56,0x78};
-			for(int i=0;i<sizeof(data);i++) data[i]+=i;
+			for(unsigned int i=0;i<sizeof(data);i++) data[i]+=i;
 			int actual_length;
 			err = libusb_bulk_transfer(handle, BULK_EP_OUT, data, sizeof(data), &actual_length, 0);
 			if(err || (actual_length!=sizeof(data))) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
 			
-			for(int i=0;i<sizeof(data);i++) data[i]=0;
+			for(unsigned int i=0;i<sizeof(data);i++) data[i]=0;
 			libusb_bulk_transfer(handle, BULK_EP_IN, data, sizeof(data), &actual_length, 0);
 			if(err || (actual_length!=sizeof(data))) throw new std::string("ERROR: libusb_bulk_transfer() IN failed");
 			// results of the transaction can now be found in the data buffer
@@ -104,19 +105,19 @@ void readWriteLoop(libusb_device_handle *handle){
 
 
 void readBenchmark(libusb_device_handle *handle){
-	volatile uint32_t cnt = 0;
-	uint32_t dataStorage[8];
+	//volatile uint32_t cnt = 0;
+	//uint32_t dataStorage[8];
 	uint32_t data[256*1024];
 	int actual_length;
 	//err = libusb_bulk_transfer(handle, BULK_EP_OUT, (uint8_t*)data, sizeof(data), &actual_length, 0);
 	//if(err || (actual_length!=sizeof(data))) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
 	
-	dataStorage[0]=0;
-	dataStorage[1]=1;
+	//dataStorage[0]=0;
+	//dataStorage[1]=1;
 	// Starting the time measurement
 	double start = omp_get_wtime();
 	int len = 1024*1014*10;				
-	for(int j=0;j<len/sizeof(data);j++){
+	for(unsigned int j=0;j<len/sizeof(data);j++){
 		try{
 			//for(int i=0;i<2;i++) dataStorage[i]=cnt++;
 			//data[0]=0;data[1]=0;
@@ -149,10 +150,24 @@ void readBenchmark(libusb_device_handle *handle){
 	std::cout << "Reply time is: " << exec_time <<"s, "<< mbits_per_sec <<"MBits/s ("<< mbits_per_sec/8 <<"MBytes/s)\n";
 	
 }
+void print_bytes(uint8_t*bytes,unsigned int len){
+    for(unsigned int i=0;i<len;i++){
+		printf("%02X ",bytes[i]);
+	}
+}
+void println_bytes(uint8_t*bytes,unsigned int len){
+    print_bytes(bytes,len);
+    printf("\n");
+}
 
 typedef enum {
-	CMD_NOP = 0x00, CMD_READ = 0x01, CMD_WRITE = 0x02, CMD_UNKNOWN = 0xFF
-};
+	CMD_NOP          = 0x00,
+	CMD_READ         = 0x01,
+	CMD_WRITE        = 0x02,
+	CMD_READ_SFR     = 0x03,
+	CMD_WRITE_SFR    = 0x04,
+	CMD_TEST_UNKNOWN = 0xFF
+} cmd_t;
 
 uint8_t membuf[256];
 	
@@ -184,7 +199,7 @@ void write_mem(libusb_device_handle *handle,uint32_t addr, const uint8_t * const
 	}
 	//send data
 	err = libusb_bulk_transfer(handle, BULK_EP_OUT, (uint8_t*)dat, len, &actual_length, 0);
-	if(err || (actual_length!=len)) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
+	if(err || (actual_length<0) || (((unsigned int)actual_length)!=len)) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
 }
 void read_mem(libusb_device_handle *handle,uint32_t addr, uint8_t *dat, uint32_t len){
 	uint8_t cmd[8];
@@ -210,7 +225,8 @@ void read_mem(libusb_device_handle *handle,uint32_t addr, uint8_t *dat, uint32_t
 	}
 	//read data
 	err = libusb_bulk_transfer(handle, BULK_EP_IN, (uint8_t*)dat, len, &actual_length, 0);
-	if(err || (actual_length!=len)) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
+	if(err || (actual_length<0) || (((unsigned int)actual_length)!=len)) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
+
 
 	uint32_t i;
 	
@@ -223,8 +239,101 @@ void read_mem(libusb_device_handle *handle,uint32_t addr, uint8_t *dat, uint32_t
 	}
 	printf("\n");
 }
+
+typedef struct sfr_write_instruction_struct {
+    uint32_t sfr_id;
+    uint32_t value;
+} sfr_write_instruction_t;
+
+#define SFR08_MARK 0x10000000
+#define SFR16_MARK 0x20000000
+#define SFR32_MARK 0x40000000
+
+uint8_t sfr_id_to_width(uint32_t sfr_id) { return sfr_id >> 28; }
+//EFM8 specific stuff
+uint8_t sfr_id_to_sfrpage(uint32_t sfr_id) { return 0xFF & (sfr_id >> 8); }
+uint8_t sfr_id_to_sfraddr(uint32_t sfr_id) { return 0xFF & sfr_id; }
+
+#define CRC0IN_SFRPAGE 0x00
+#define CRC0IN_SFRADDR 0xDD
+#define CRC0DAT_SFRPAGE 0x00
+#define CRC0DAT_SFRADDR 0xDE
+
+#define CRC0IN  (SFR08_MARK|(CRC0IN_SFRPAGE <<16)|CRC0IN_SFRADDR )
+#define CRC0DAT (SFR08_MARK|(CRC0DAT_SFRPAGE<<16)|CRC0DAT_SFRADDR)
+
+void sfr_write(libusb_device_handle *handle,const sfr_write_instruction_t * const sfr_write_instructions, uint8_t n_instructions){
+	uint32_t cmd_len=4;
+    uint32_t cmd_data_len;
+	uint8_t cmd[4+256*3];
+	cmd[0]=CMD_WRITE_SFR;
+	cmd[1]=0;
+	cmd[2]=0;
+    for(unsigned int i=0;i<n_instructions;i++){
+        uint8_t sfr_width = sfr_id_to_width(sfr_write_instructions[i].sfr_id);
+        for(unsigned int j=0;j<sfr_width;j++){
+            cmd[cmd_len++] = sfr_id_to_sfrpage(sfr_write_instructions[i].sfr_id);
+            cmd[cmd_len++] = sfr_id_to_sfraddr(sfr_write_instructions[i].sfr_id);
+            cmd[cmd_len++] = 0xFF & (sfr_write_instructions[i].value>>(j*8));
+        }
+    }
+    cmd_data_len=cmd_len-4;
+    assert(cmd_data_len<256);
+    cmd[3] = cmd_data_len;
+	int actual_length;
+	println_bytes(cmd,cmd_len);
+	//send cmd
+	err = libusb_bulk_transfer(handle, BULK_EP_OUT, cmd, cmd_len, &actual_length, 0);
+	if(err || (actual_length<0) || (((unsigned int)actual_length)!=cmd_len)) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
+	//get ack
+	uint8_t ack[2];
+	err = libusb_bulk_transfer(handle, BULK_EP_IN, ack, 2, &actual_length, 0);
+	if(err) throw new std::string("ERROR: libusb_bulk_transfer() IN failed");
+	if(ack[0]!=cmd[0]){
+		printf("%d %02X %02X\n",actual_length,ack[0],ack[1]);
+		throw new std::string("ERROR: unexpected ack");
+	}
+}
+void sfr_read(libusb_device_handle *handle,uint32_t *sfr_ids, uint8_t n_sfr_ids, uint8_t *dat, uint32_t len){
+	uint8_t cmd[4+256*2];
+    uint32_t cmd_len=4;
+    uint32_t cmd_data_len;
+	cmd[0]=CMD_READ_SFR;
+	cmd[1]=0;
+	cmd[2]=0;
+	for(unsigned int i=0;i<n_sfr_ids;i++){
+        uint8_t sfr_width = sfr_id_to_width(sfr_ids[i]);
+        for(unsigned int j=0;j<sfr_width;j++){
+            cmd[cmd_len++] = sfr_id_to_sfrpage(sfr_ids[i]);
+            cmd[cmd_len++] = sfr_id_to_sfraddr(sfr_ids[i]);
+        }
+    }
+    cmd_data_len=cmd_len-4;
+    assert((cmd_data_len/2)<=len);
+    assert(cmd_data_len<256);
+    cmd[3] = cmd_data_len;
+	int actual_length;
+    println_bytes(cmd,cmd_len);
+	//send cmd
+	err = libusb_bulk_transfer(handle, BULK_EP_OUT, cmd, cmd_len, &actual_length, 0);
+	if(err || (actual_length<0) || (((unsigned int)actual_length)!=cmd_len)) throw new std::string("ERROR: libusb_bulk_transfer() OUT failed");
+	//get ack
+	uint8_t tmp[1+256];
+	err = libusb_bulk_transfer(handle, BULK_EP_IN, tmp, sizeof(tmp), &actual_length, 0);
+	if(err || (actual_length<0)) throw new std::string("ERROR: libusb_bulk_transfer() IN failed");
+	if(tmp[0]!=cmd[0]){
+		printf("%d %02X\n",actual_length,tmp[0]);
+		throw new std::string("ERROR: unexpected ack");
+	}
+	if(((unsigned int)actual_length)!=1+len) throw new std::string("ERROR: unexpected length returned by device");
+    
+    memcpy(dat,tmp+1,len);
+	println_bytes(dat,len);
+}
+
 void usbmonTest(libusb_device_handle *handle){
 	uint8_t dat[256];
+    uint8_t tmp[256];
 	for(int i=0;i<256;i++) dat[i]=i;
 	write_mem(handle,0,dat,8);
 	read_mem(handle,0,dat,8);
@@ -238,6 +347,18 @@ void usbmonTest(libusb_device_handle *handle){
 	read_mem(handle,0,dat,32);
 	//write_mem(handle,0,dat,64);
 	read_mem(handle,0,dat,256);
+    uint32_t crc0dat = CRC0DAT;
+    printf("read CRC0DAT\n");
+    sfr_read(handle,&crc0dat,1,tmp,1);
+    sfr_write_instruction_t write_inst;
+    write_inst.sfr_id = CRC0IN;
+    write_inst.value = 0x12;
+    for(int i=0;i<10;i++){
+        printf("write CRC0IN\n");
+        sfr_write(handle,&write_inst,1);
+        printf("read CRC0DAT\n");
+        sfr_read(handle,&crc0dat,1,tmp,1);
+    }
 }
 
 
