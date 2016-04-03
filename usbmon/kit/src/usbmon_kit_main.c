@@ -61,6 +61,12 @@ void waitUsbConfigured(void) {
 		_nop_();		//slow down a bit
 	}
 }
+uint8_t test(uint8_t in){
+	return CRC0DAT+in;
+}
+uint8_t* compute_ptr(uint8_t*ptr, uint8_t offset){
+	return ptr+4*offset;
+}
 int main(void) {
 	volatile uint32_t cnt = 0;
 	uint8_t* buf = (uint8_t*) dataStorage;

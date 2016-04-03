@@ -62,23 +62,21 @@
 							<tool id="com.silabs.ide.si8051.keil.toolchain.librarian.1733121581" name="Keil 8051 Library Manager" superClass="com.silabs.ide.si8051.keil.toolchain.librarian"/>
 						</toolChain>
 					</folderInfo>
-					<folderInfo id="com.silabs.ide.si8051.keil.debug#com.silabs.ide.si8051.keil:9.53.0.362140641" name="/" resourcePath="generated">
-						<toolChain id="com.silabs.ide.si8051.keil.toolchain.exe.default.1331896534" name="Keil 8051" superClass="com.silabs.ide.si8051.keil.toolchain.exe.default" unusedChildren="">
-							<option id="com.silabs.ide.si8051.keil.toolchain.category.general.debug.1111798764.1823742898" name="Generate debug information" superClass="com.silabs.ide.si8051.keil.toolchain.category.general.debug.1111798764"/>
-							<option id="com.silabs.ide.si8051.keil.toolchain.category.general.extended_linker.1263854772.1260878973" name="Use Extended Linker (LX51) instead of BL51" superClass="com.silabs.ide.si8051.keil.toolchain.category.general.extended_linker.1263854772"/>
-							<option id="com.silabs.ide.si8051.keil.toolchain.category.general.extended_assembler.1394403202.435150962" name="Use Extended Assembler (AX51) instead of A51" superClass="com.silabs.ide.si8051.keil.toolchain.category.general.extended_assembler.1394403202"/>
-							<tool id="com.silabs.ide.si8051.keil.toolchain.compiler.650429449" name="Keil 8051 Compiler" superClass="com.silabs.ide.si8051.keil.toolchain.compiler.593330869">
-								<inputType id="com.silabs.ide.si8051.keil.compiler.inputType.1029117927" superClass="com.silabs.ide.si8051.keil.compiler.inputType"/>
-							</tool>
-							<tool id="com.silabs.ide.si8051.keil.toolchain.assembler.2134636616" name="Keil 8051 Assembler" superClass="com.silabs.ide.si8051.keil.toolchain.assembler.1695267251">
-								<inputType id="com.silabs.ide.si8051.keil.assembler.inputType.1771591169" superClass="com.silabs.ide.si8051.keil.assembler.inputType"/>
-							</tool>
-							<tool id="com.silabs.ide.si8051.keil.toolchain.linker.781064799" name="Keil 8051 Linker" superClass="com.silabs.ide.si8051.keil.toolchain.linker.1233649486"/>
-							<tool id="com.silabs.ide.si8051.keil.toolchain.librarian.507256347" name="Keil 8051 Library Manager" superClass="com.silabs.ide.si8051.keil.toolchain.librarian.1733121581"/>
-						</toolChain>
-					</folderInfo>
+					<fileInfo id="com.silabs.ide.si8051.keil.debug#com.silabs.ide.si8051.keil:9.53.0.977680836" name="sfr_read_cmd.h" rcbsApplicability="disable" resourcePath="generated/sfr_read_cmd.h" toolsToInvoke=""/>
+					<fileInfo id="com.silabs.ide.si8051.keil.debug#com.silabs.ide.si8051.keil:9.53.0.1460825689" name="usbmon_kit_main.c" rcbsApplicability="disable" resourcePath="src/usbmon_kit_main.c" toolsToInvoke="com.silabs.ide.si8051.keil.toolchain.compiler.593330869.629502917">
+						<tool id="com.silabs.ide.si8051.keil.toolchain.compiler.593330869.629502917" name="Keil 8051 Compiler" superClass="com.silabs.ide.si8051.keil.toolchain.compiler.593330869">
+							<option id="com.silabs.ide.si8051.keil.compiler.category.listing.assembly.1746769166" name="Assembly code" superClass="com.silabs.ide.si8051.keil.compiler.category.listing.assembly" value="true" valueType="boolean"/>
+							<inputType id="com.silabs.ide.si8051.keil.compiler.inputType.1818749611" superClass="com.silabs.ide.si8051.keil.compiler.inputType"/>
+						</tool>
+						<tool customBuildStep="true" id="org.eclipse.cdt.managedbuilder.ui.rcbs.1028112816" name="Resource Custom Build Step">
+							<inputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.inputtype.922599015" name="Resource Custom Build Step Input Type">
+								<additionalInput kind="additionalinputdependency" paths=""/>
+							</inputType>
+							<outputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.outputtype.1194742990" name="Resource Custom Build Step Output Type"/>
+						</tool>
+					</fileInfo>
 					<sourceEntries>
-						<entry excluding="generated" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="generated/sfr_read_cmd.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -119,13 +117,13 @@
 								</option>
 								<option id="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis.1425474568" name="Emphasis" superClass="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis" value="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis.speed" valueType="enumerated"/>
 								<option id="com.silabs.ide.si8051.keil.compiler.category.optimization.coloring.2108375531" name="Global register coloring" superClass="com.silabs.ide.si8051.keil.compiler.category.optimization.coloring" value="true" valueType="boolean"/>
-								<option id="com.silabs.ide.si8051.keil.compiler.category.includes.paths.1136535179" superClass="com.silabs.ide.si8051.keil.compiler.category.includes.paths" valueType="includePath">
+								<option id="com.silabs.ide.si8051.keil.compiler.category.includes.paths.1136535179" name="Include paths (INCDIR(...))" superClass="com.silabs.ide.si8051.keil.compiler.category.includes.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/usbmon_kit/generated}&quot;"/>
 								</option>
 								<inputType id="com.silabs.ide.si8051.keil.compiler.inputType.845628742" superClass="com.silabs.ide.si8051.keil.compiler.inputType"/>
 							</tool>
 							<tool command="AX51" id="com.silabs.ide.si8051.keil.toolchain.assembler.1527934143" name="Keil 8051 Assembler" superClass="com.silabs.ide.si8051.keil.toolchain.assembler">
-								<option id="com.silabs.ide.si8051.keil.assembler.category.includes.paths.1568999588" superClass="com.silabs.ide.si8051.keil.assembler.category.includes.paths" valueType="includePath">
+								<option id="com.silabs.ide.si8051.keil.assembler.category.includes.paths.1568999588" name="Include paths (INCDIR(...))" superClass="com.silabs.ide.si8051.keil.assembler.category.includes.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/usbmon_kit/generated}&quot;"/>
 								</option>
 								<inputType id="com.silabs.ide.si8051.keil.assembler.inputType.1634881457" superClass="com.silabs.ide.si8051.keil.assembler.inputType"/>

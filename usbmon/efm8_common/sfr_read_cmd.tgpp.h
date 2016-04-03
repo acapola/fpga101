@@ -2,6 +2,7 @@
 #define __SFR_READ_CMD_H__
 
 #include <stdint.h>
+uint8_t SFR_READ(uint8_t sfr_addr);
 
 uint8_t sfr_cmd_invalid_header(uint8_t* combuf,uint8_t unit){
 	if(combuf[3]%unit) return 1;//need an integer number of instruction in the command
@@ -33,7 +34,7 @@ void sfr_read_cmd(uint32_t* combuf32){
 			return;
 		}
 		SFRPAGE = sfrpage;
-		combuf[1+(i>>1)] = CRC0DAT;
+		combuf[1+(i>>1)] = SFR_READ(combuf[4+i+1]);//CRC0DAT;
 	}
 	// Restore the SFRPAGE
 	SFRPAGE = SFRPAGE_save;	
