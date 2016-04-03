@@ -19,19 +19,51 @@ DPH     DATA    83H
 
                 NAME    SFR_ACCESS
 				PUBLIC  _SFR_READ
+				PUBLIC  _SFR_WRITE
 
 SFR_ACCESS	   SEGMENT   CODE
 
 
                 RSEG    SFR_ACCESS
-
+				
+;---- Variable 'sfr_addr' assigned to Register 'R7' ----
 _SFR_READ:
 				MOV     DPTR,#SFR_READ_BASE
+				MOV     A,R7
+				MOV     B,#04H
+				MUL     AB
+				ADD     A,DPL
+				MOV     DPL,A
+				MOV     A,DPH
+				ADDC    A,B
+				MOV     DPH,A
+				CLR		A
 				JMP		@A+DPTR
 SFR_READ_BASE:
 ``for {set i 0} {$i<256} {incr i} {``
                 MOV     A,0`format "%02X" $i`H
 				MOV     R7, A
+				RET
+``}``
+
+;---- Variable 'value' assigned to Register 'R5' ----
+;---- Variable 'sfr_addr' assigned to Register 'R7' ----
+_SFR_WRITE:
+				MOV     DPTR,#SFR_WRITE_BASE
+				MOV     A,R7
+				MOV     B,#04H
+				MUL     AB
+				ADD     A,DPL
+				MOV     DPL,A
+				MOV     A,DPH
+				ADDC    A,B
+				MOV     DPH,A
+				CLR		A
+				JMP		@A+DPTR
+SFR_WRITE_BASE:
+``for {set i 0} {$i<256} {incr i} {``
+                MOV     A, R5
+				MOV     0`format "%02X" $i`H,A
 				RET
 ``}``
                 END

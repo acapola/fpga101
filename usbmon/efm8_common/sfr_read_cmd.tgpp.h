@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 uint8_t SFR_READ(uint8_t sfr_addr);
-
+uint8_t SFR_WRITE(uint8_t sfr_addr, uint8_t value);
 uint8_t sfr_cmd_invalid_header(uint8_t* combuf,uint8_t unit){
 	if(combuf[3]%unit) return 1;//need an integer number of instruction in the command
 	if(combuf[1]|combuf[2]) return 1;//max len is 254
@@ -34,7 +34,7 @@ void sfr_read_cmd(uint32_t* combuf32){
 			return;
 		}
 		SFRPAGE = sfrpage;
-		combuf[1+(i>>1)] = SFR_READ(combuf[4+i+1]);//CRC0DAT;
+		combuf[1+(i>>1)] = SFR_READ(combuf[4+i+1]);
 	}
 	// Restore the SFRPAGE
 	SFRPAGE = SFRPAGE_save;	
@@ -59,7 +59,8 @@ void sfr_write_cmd(uint32_t* combuf32){
 			return;
 		}
 		SFRPAGE = sfrpage;
-		CRC0IN = combuf[4+i+2];
+		//CRC0IN = combuf[4+i+2];
+		SFR_WRITE(combuf[4+i+1], combuf[4+i+2]);
 	}
 	// Restore the SFRPAGE
 	SFRPAGE = SFRPAGE_save;	

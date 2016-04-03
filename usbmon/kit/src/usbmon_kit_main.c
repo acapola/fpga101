@@ -67,6 +67,9 @@ uint8_t test(uint8_t in){
 uint8_t* compute_ptr(uint8_t*ptr, uint8_t offset){
 	return ptr+4*offset;
 }
+uint8_t add(uint8_t a, uint8_t b){
+	return a+b;
+}
 int main(void) {
 	volatile uint32_t cnt = 0;
 	uint8_t* buf = (uint8_t*) dataStorage;

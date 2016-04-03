@@ -19,14 +19,25 @@ DPH     DATA    83H
 
                 NAME    SFR_ACCESS
 				PUBLIC  _SFR_READ
+				PUBLIC  _SFR_WRITE
 
 SFR_ACCESS	   SEGMENT   CODE
 
 
                 RSEG    SFR_ACCESS
-
+				
+;---- Variable 'sfr_addr' assigned to Register 'R7' ----
 _SFR_READ:
 				MOV     DPTR,#SFR_READ_BASE
+				MOV     A,R7
+				MOV     B,#04H
+				MUL     AB
+				ADD     A,DPL
+				MOV     DPL,A
+				MOV     A,DPH
+				ADDC    A,B
+				MOV     DPH,A
+				CLR		A
 				JMP		@A+DPTR
 SFR_READ_BASE:
                 MOV     A,000H
@@ -796,5 +807,789 @@ SFR_READ_BASE:
 				RET
                 MOV     A,0FFH
 				MOV     R7, A
+				RET
+
+;---- Variable 'value' assigned to Register 'R5' ----
+;---- Variable 'sfr_addr' assigned to Register 'R7' ----
+_SFR_WRITE:
+				MOV     DPTR,#SFR_WRITE_BASE
+				MOV     A,R7
+				MOV     B,#04H
+				MUL     AB
+				ADD     A,DPL
+				MOV     DPL,A
+				MOV     A,DPH
+				ADDC    A,B
+				MOV     DPH,A
+				CLR		A
+				JMP		@A+DPTR
+SFR_WRITE_BASE:
+                MOV     A, R5
+				MOV     000H,A
+				RET
+                MOV     A, R5
+				MOV     001H,A
+				RET
+                MOV     A, R5
+				MOV     002H,A
+				RET
+                MOV     A, R5
+				MOV     003H,A
+				RET
+                MOV     A, R5
+				MOV     004H,A
+				RET
+                MOV     A, R5
+				MOV     005H,A
+				RET
+                MOV     A, R5
+				MOV     006H,A
+				RET
+                MOV     A, R5
+				MOV     007H,A
+				RET
+                MOV     A, R5
+				MOV     008H,A
+				RET
+                MOV     A, R5
+				MOV     009H,A
+				RET
+                MOV     A, R5
+				MOV     00AH,A
+				RET
+                MOV     A, R5
+				MOV     00BH,A
+				RET
+                MOV     A, R5
+				MOV     00CH,A
+				RET
+                MOV     A, R5
+				MOV     00DH,A
+				RET
+                MOV     A, R5
+				MOV     00EH,A
+				RET
+                MOV     A, R5
+				MOV     00FH,A
+				RET
+                MOV     A, R5
+				MOV     010H,A
+				RET
+                MOV     A, R5
+				MOV     011H,A
+				RET
+                MOV     A, R5
+				MOV     012H,A
+				RET
+                MOV     A, R5
+				MOV     013H,A
+				RET
+                MOV     A, R5
+				MOV     014H,A
+				RET
+                MOV     A, R5
+				MOV     015H,A
+				RET
+                MOV     A, R5
+				MOV     016H,A
+				RET
+                MOV     A, R5
+				MOV     017H,A
+				RET
+                MOV     A, R5
+				MOV     018H,A
+				RET
+                MOV     A, R5
+				MOV     019H,A
+				RET
+                MOV     A, R5
+				MOV     01AH,A
+				RET
+                MOV     A, R5
+				MOV     01BH,A
+				RET
+                MOV     A, R5
+				MOV     01CH,A
+				RET
+                MOV     A, R5
+				MOV     01DH,A
+				RET
+                MOV     A, R5
+				MOV     01EH,A
+				RET
+                MOV     A, R5
+				MOV     01FH,A
+				RET
+                MOV     A, R5
+				MOV     020H,A
+				RET
+                MOV     A, R5
+				MOV     021H,A
+				RET
+                MOV     A, R5
+				MOV     022H,A
+				RET
+                MOV     A, R5
+				MOV     023H,A
+				RET
+                MOV     A, R5
+				MOV     024H,A
+				RET
+                MOV     A, R5
+				MOV     025H,A
+				RET
+                MOV     A, R5
+				MOV     026H,A
+				RET
+                MOV     A, R5
+				MOV     027H,A
+				RET
+                MOV     A, R5
+				MOV     028H,A
+				RET
+                MOV     A, R5
+				MOV     029H,A
+				RET
+                MOV     A, R5
+				MOV     02AH,A
+				RET
+                MOV     A, R5
+				MOV     02BH,A
+				RET
+                MOV     A, R5
+				MOV     02CH,A
+				RET
+                MOV     A, R5
+				MOV     02DH,A
+				RET
+                MOV     A, R5
+				MOV     02EH,A
+				RET
+                MOV     A, R5
+				MOV     02FH,A
+				RET
+                MOV     A, R5
+				MOV     030H,A
+				RET
+                MOV     A, R5
+				MOV     031H,A
+				RET
+                MOV     A, R5
+				MOV     032H,A
+				RET
+                MOV     A, R5
+				MOV     033H,A
+				RET
+                MOV     A, R5
+				MOV     034H,A
+				RET
+                MOV     A, R5
+				MOV     035H,A
+				RET
+                MOV     A, R5
+				MOV     036H,A
+				RET
+                MOV     A, R5
+				MOV     037H,A
+				RET
+                MOV     A, R5
+				MOV     038H,A
+				RET
+                MOV     A, R5
+				MOV     039H,A
+				RET
+                MOV     A, R5
+				MOV     03AH,A
+				RET
+                MOV     A, R5
+				MOV     03BH,A
+				RET
+                MOV     A, R5
+				MOV     03CH,A
+				RET
+                MOV     A, R5
+				MOV     03DH,A
+				RET
+                MOV     A, R5
+				MOV     03EH,A
+				RET
+                MOV     A, R5
+				MOV     03FH,A
+				RET
+                MOV     A, R5
+				MOV     040H,A
+				RET
+                MOV     A, R5
+				MOV     041H,A
+				RET
+                MOV     A, R5
+				MOV     042H,A
+				RET
+                MOV     A, R5
+				MOV     043H,A
+				RET
+                MOV     A, R5
+				MOV     044H,A
+				RET
+                MOV     A, R5
+				MOV     045H,A
+				RET
+                MOV     A, R5
+				MOV     046H,A
+				RET
+                MOV     A, R5
+				MOV     047H,A
+				RET
+                MOV     A, R5
+				MOV     048H,A
+				RET
+                MOV     A, R5
+				MOV     049H,A
+				RET
+                MOV     A, R5
+				MOV     04AH,A
+				RET
+                MOV     A, R5
+				MOV     04BH,A
+				RET
+                MOV     A, R5
+				MOV     04CH,A
+				RET
+                MOV     A, R5
+				MOV     04DH,A
+				RET
+                MOV     A, R5
+				MOV     04EH,A
+				RET
+                MOV     A, R5
+				MOV     04FH,A
+				RET
+                MOV     A, R5
+				MOV     050H,A
+				RET
+                MOV     A, R5
+				MOV     051H,A
+				RET
+                MOV     A, R5
+				MOV     052H,A
+				RET
+                MOV     A, R5
+				MOV     053H,A
+				RET
+                MOV     A, R5
+				MOV     054H,A
+				RET
+                MOV     A, R5
+				MOV     055H,A
+				RET
+                MOV     A, R5
+				MOV     056H,A
+				RET
+                MOV     A, R5
+				MOV     057H,A
+				RET
+                MOV     A, R5
+				MOV     058H,A
+				RET
+                MOV     A, R5
+				MOV     059H,A
+				RET
+                MOV     A, R5
+				MOV     05AH,A
+				RET
+                MOV     A, R5
+				MOV     05BH,A
+				RET
+                MOV     A, R5
+				MOV     05CH,A
+				RET
+                MOV     A, R5
+				MOV     05DH,A
+				RET
+                MOV     A, R5
+				MOV     05EH,A
+				RET
+                MOV     A, R5
+				MOV     05FH,A
+				RET
+                MOV     A, R5
+				MOV     060H,A
+				RET
+                MOV     A, R5
+				MOV     061H,A
+				RET
+                MOV     A, R5
+				MOV     062H,A
+				RET
+                MOV     A, R5
+				MOV     063H,A
+				RET
+                MOV     A, R5
+				MOV     064H,A
+				RET
+                MOV     A, R5
+				MOV     065H,A
+				RET
+                MOV     A, R5
+				MOV     066H,A
+				RET
+                MOV     A, R5
+				MOV     067H,A
+				RET
+                MOV     A, R5
+				MOV     068H,A
+				RET
+                MOV     A, R5
+				MOV     069H,A
+				RET
+                MOV     A, R5
+				MOV     06AH,A
+				RET
+                MOV     A, R5
+				MOV     06BH,A
+				RET
+                MOV     A, R5
+				MOV     06CH,A
+				RET
+                MOV     A, R5
+				MOV     06DH,A
+				RET
+                MOV     A, R5
+				MOV     06EH,A
+				RET
+                MOV     A, R5
+				MOV     06FH,A
+				RET
+                MOV     A, R5
+				MOV     070H,A
+				RET
+                MOV     A, R5
+				MOV     071H,A
+				RET
+                MOV     A, R5
+				MOV     072H,A
+				RET
+                MOV     A, R5
+				MOV     073H,A
+				RET
+                MOV     A, R5
+				MOV     074H,A
+				RET
+                MOV     A, R5
+				MOV     075H,A
+				RET
+                MOV     A, R5
+				MOV     076H,A
+				RET
+                MOV     A, R5
+				MOV     077H,A
+				RET
+                MOV     A, R5
+				MOV     078H,A
+				RET
+                MOV     A, R5
+				MOV     079H,A
+				RET
+                MOV     A, R5
+				MOV     07AH,A
+				RET
+                MOV     A, R5
+				MOV     07BH,A
+				RET
+                MOV     A, R5
+				MOV     07CH,A
+				RET
+                MOV     A, R5
+				MOV     07DH,A
+				RET
+                MOV     A, R5
+				MOV     07EH,A
+				RET
+                MOV     A, R5
+				MOV     07FH,A
+				RET
+                MOV     A, R5
+				MOV     080H,A
+				RET
+                MOV     A, R5
+				MOV     081H,A
+				RET
+                MOV     A, R5
+				MOV     082H,A
+				RET
+                MOV     A, R5
+				MOV     083H,A
+				RET
+                MOV     A, R5
+				MOV     084H,A
+				RET
+                MOV     A, R5
+				MOV     085H,A
+				RET
+                MOV     A, R5
+				MOV     086H,A
+				RET
+                MOV     A, R5
+				MOV     087H,A
+				RET
+                MOV     A, R5
+				MOV     088H,A
+				RET
+                MOV     A, R5
+				MOV     089H,A
+				RET
+                MOV     A, R5
+				MOV     08AH,A
+				RET
+                MOV     A, R5
+				MOV     08BH,A
+				RET
+                MOV     A, R5
+				MOV     08CH,A
+				RET
+                MOV     A, R5
+				MOV     08DH,A
+				RET
+                MOV     A, R5
+				MOV     08EH,A
+				RET
+                MOV     A, R5
+				MOV     08FH,A
+				RET
+                MOV     A, R5
+				MOV     090H,A
+				RET
+                MOV     A, R5
+				MOV     091H,A
+				RET
+                MOV     A, R5
+				MOV     092H,A
+				RET
+                MOV     A, R5
+				MOV     093H,A
+				RET
+                MOV     A, R5
+				MOV     094H,A
+				RET
+                MOV     A, R5
+				MOV     095H,A
+				RET
+                MOV     A, R5
+				MOV     096H,A
+				RET
+                MOV     A, R5
+				MOV     097H,A
+				RET
+                MOV     A, R5
+				MOV     098H,A
+				RET
+                MOV     A, R5
+				MOV     099H,A
+				RET
+                MOV     A, R5
+				MOV     09AH,A
+				RET
+                MOV     A, R5
+				MOV     09BH,A
+				RET
+                MOV     A, R5
+				MOV     09CH,A
+				RET
+                MOV     A, R5
+				MOV     09DH,A
+				RET
+                MOV     A, R5
+				MOV     09EH,A
+				RET
+                MOV     A, R5
+				MOV     09FH,A
+				RET
+                MOV     A, R5
+				MOV     0A0H,A
+				RET
+                MOV     A, R5
+				MOV     0A1H,A
+				RET
+                MOV     A, R5
+				MOV     0A2H,A
+				RET
+                MOV     A, R5
+				MOV     0A3H,A
+				RET
+                MOV     A, R5
+				MOV     0A4H,A
+				RET
+                MOV     A, R5
+				MOV     0A5H,A
+				RET
+                MOV     A, R5
+				MOV     0A6H,A
+				RET
+                MOV     A, R5
+				MOV     0A7H,A
+				RET
+                MOV     A, R5
+				MOV     0A8H,A
+				RET
+                MOV     A, R5
+				MOV     0A9H,A
+				RET
+                MOV     A, R5
+				MOV     0AAH,A
+				RET
+                MOV     A, R5
+				MOV     0ABH,A
+				RET
+                MOV     A, R5
+				MOV     0ACH,A
+				RET
+                MOV     A, R5
+				MOV     0ADH,A
+				RET
+                MOV     A, R5
+				MOV     0AEH,A
+				RET
+                MOV     A, R5
+				MOV     0AFH,A
+				RET
+                MOV     A, R5
+				MOV     0B0H,A
+				RET
+                MOV     A, R5
+				MOV     0B1H,A
+				RET
+                MOV     A, R5
+				MOV     0B2H,A
+				RET
+                MOV     A, R5
+				MOV     0B3H,A
+				RET
+                MOV     A, R5
+				MOV     0B4H,A
+				RET
+                MOV     A, R5
+				MOV     0B5H,A
+				RET
+                MOV     A, R5
+				MOV     0B6H,A
+				RET
+                MOV     A, R5
+				MOV     0B7H,A
+				RET
+                MOV     A, R5
+				MOV     0B8H,A
+				RET
+                MOV     A, R5
+				MOV     0B9H,A
+				RET
+                MOV     A, R5
+				MOV     0BAH,A
+				RET
+                MOV     A, R5
+				MOV     0BBH,A
+				RET
+                MOV     A, R5
+				MOV     0BCH,A
+				RET
+                MOV     A, R5
+				MOV     0BDH,A
+				RET
+                MOV     A, R5
+				MOV     0BEH,A
+				RET
+                MOV     A, R5
+				MOV     0BFH,A
+				RET
+                MOV     A, R5
+				MOV     0C0H,A
+				RET
+                MOV     A, R5
+				MOV     0C1H,A
+				RET
+                MOV     A, R5
+				MOV     0C2H,A
+				RET
+                MOV     A, R5
+				MOV     0C3H,A
+				RET
+                MOV     A, R5
+				MOV     0C4H,A
+				RET
+                MOV     A, R5
+				MOV     0C5H,A
+				RET
+                MOV     A, R5
+				MOV     0C6H,A
+				RET
+                MOV     A, R5
+				MOV     0C7H,A
+				RET
+                MOV     A, R5
+				MOV     0C8H,A
+				RET
+                MOV     A, R5
+				MOV     0C9H,A
+				RET
+                MOV     A, R5
+				MOV     0CAH,A
+				RET
+                MOV     A, R5
+				MOV     0CBH,A
+				RET
+                MOV     A, R5
+				MOV     0CCH,A
+				RET
+                MOV     A, R5
+				MOV     0CDH,A
+				RET
+                MOV     A, R5
+				MOV     0CEH,A
+				RET
+                MOV     A, R5
+				MOV     0CFH,A
+				RET
+                MOV     A, R5
+				MOV     0D0H,A
+				RET
+                MOV     A, R5
+				MOV     0D1H,A
+				RET
+                MOV     A, R5
+				MOV     0D2H,A
+				RET
+                MOV     A, R5
+				MOV     0D3H,A
+				RET
+                MOV     A, R5
+				MOV     0D4H,A
+				RET
+                MOV     A, R5
+				MOV     0D5H,A
+				RET
+                MOV     A, R5
+				MOV     0D6H,A
+				RET
+                MOV     A, R5
+				MOV     0D7H,A
+				RET
+                MOV     A, R5
+				MOV     0D8H,A
+				RET
+                MOV     A, R5
+				MOV     0D9H,A
+				RET
+                MOV     A, R5
+				MOV     0DAH,A
+				RET
+                MOV     A, R5
+				MOV     0DBH,A
+				RET
+                MOV     A, R5
+				MOV     0DCH,A
+				RET
+                MOV     A, R5
+				MOV     0DDH,A
+				RET
+                MOV     A, R5
+				MOV     0DEH,A
+				RET
+                MOV     A, R5
+				MOV     0DFH,A
+				RET
+                MOV     A, R5
+				MOV     0E0H,A
+				RET
+                MOV     A, R5
+				MOV     0E1H,A
+				RET
+                MOV     A, R5
+				MOV     0E2H,A
+				RET
+                MOV     A, R5
+				MOV     0E3H,A
+				RET
+                MOV     A, R5
+				MOV     0E4H,A
+				RET
+                MOV     A, R5
+				MOV     0E5H,A
+				RET
+                MOV     A, R5
+				MOV     0E6H,A
+				RET
+                MOV     A, R5
+				MOV     0E7H,A
+				RET
+                MOV     A, R5
+				MOV     0E8H,A
+				RET
+                MOV     A, R5
+				MOV     0E9H,A
+				RET
+                MOV     A, R5
+				MOV     0EAH,A
+				RET
+                MOV     A, R5
+				MOV     0EBH,A
+				RET
+                MOV     A, R5
+				MOV     0ECH,A
+				RET
+                MOV     A, R5
+				MOV     0EDH,A
+				RET
+                MOV     A, R5
+				MOV     0EEH,A
+				RET
+                MOV     A, R5
+				MOV     0EFH,A
+				RET
+                MOV     A, R5
+				MOV     0F0H,A
+				RET
+                MOV     A, R5
+				MOV     0F1H,A
+				RET
+                MOV     A, R5
+				MOV     0F2H,A
+				RET
+                MOV     A, R5
+				MOV     0F3H,A
+				RET
+                MOV     A, R5
+				MOV     0F4H,A
+				RET
+                MOV     A, R5
+				MOV     0F5H,A
+				RET
+                MOV     A, R5
+				MOV     0F6H,A
+				RET
+                MOV     A, R5
+				MOV     0F7H,A
+				RET
+                MOV     A, R5
+				MOV     0F8H,A
+				RET
+                MOV     A, R5
+				MOV     0F9H,A
+				RET
+                MOV     A, R5
+				MOV     0FAH,A
+				RET
+                MOV     A, R5
+				MOV     0FBH,A
+				RET
+                MOV     A, R5
+				MOV     0FCH,A
+				RET
+                MOV     A, R5
+				MOV     0FDH,A
+				RET
+                MOV     A, R5
+				MOV     0FEH,A
+				RET
+                MOV     A, R5
+				MOV     0FFH,A
 				RET
                 END
